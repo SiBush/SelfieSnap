@@ -5,4 +5,8 @@
         android:title="Log Out"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/action_edit_friends"
+        android:title="Edit Friends"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
 </menu>
