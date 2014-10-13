@@ -157,6 +157,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     Toast.makeText(MainActivity.this, "There was a problem accessing the devices storage", Toast.LENGTH_LONG);
                 }
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                Toast.makeText(MainActivity.this, "You've just stepped on a frog!", Toast.LENGTH_LONG);
                 startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
                 break;
 
