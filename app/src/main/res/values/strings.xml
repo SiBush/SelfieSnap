@@ -12,5 +12,7 @@
     <string name="signup_error_message">Please make sure you fill all fields appropriately!</string>
     <string name="signup_error_title">Oops!</string>
     <string name="title_activity_edit_friends">Edit Friends</string>
+    <string name="title_activity_recipients">Choose Recipients</string>
+    <string name="title_activity_view_image">SelfieSnap</string>
 
 </resources>

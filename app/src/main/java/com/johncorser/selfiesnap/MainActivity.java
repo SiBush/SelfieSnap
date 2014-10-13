@@ -94,6 +94,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,8 +105,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             mediaScanIntent.setData(mMediaUri);
             sendBroadcast(mediaScanIntent);
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(mMediaUri);
+
+            String fileType;
+            fileType = "image";
+            recipientsIntent.putExtra("fileType", fileType);
+            startActivity(recipientsIntent);
         }
-        else if (resultCode != RESULT_OK){
+        else if (resultCode != RESULT_CANCELED){
             Toast.makeText(this, "Camera failed to return a picture", Toast.LENGTH_LONG).show();
         }
     }
