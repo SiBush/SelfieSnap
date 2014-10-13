@@ -26,9 +26,9 @@ It is currently under development, so don't look for it in the google play store
 
 * Targets Android 4.0
 
-* Uses apache commons io 2.4
+* Uses apache commons io 2.4 to convert image files so that Parse can understand them
 
-* Uses Picasso 2.3.4
+* Uses Picasso 2.3.4 to recieve/display images from Parse url
 
-* Built with a Parse backend
+* Uses a Parse BaaS to allow user sign ups, friends, and sending of messages.
 
