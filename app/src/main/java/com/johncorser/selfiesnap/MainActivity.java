@@ -154,10 +154,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                 if (mMediaUri == null){
                     //display error
-                    Toast.makeText(MainActivity.this, "There was a problem accessing the devices storage", Toast.LENGTH_LONG);
+                    Toast.makeText(MainActivity.this, "There was a problem accessing the devices storage", Toast.LENGTH_LONG).show();
                 }
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                Toast.makeText(MainActivity.this, "You've just stepped on a frog!", Toast.LENGTH_LONG);
+                Toast.makeText(MainActivity.this, "You've just stepped on a frog!", Toast.LENGTH_LONG).show();
                 startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
                 break;
 
