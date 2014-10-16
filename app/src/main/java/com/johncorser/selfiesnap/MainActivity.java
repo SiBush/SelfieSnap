@@ -201,8 +201,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             }
 
-            // 3. Create a file name
-            // 4. Create the file
+            // 3. Create the file
             File mediaFile;
             Date now = new Date();
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now);
@@ -216,7 +215,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
 
             Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
-            // 5. Return the file's uri
+            // 4. Return the file's uri
             return Uri.fromFile(mediaFile);
         }
         else {
