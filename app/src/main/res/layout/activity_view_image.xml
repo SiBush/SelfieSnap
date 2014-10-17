@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
+        android:scaleType="fitCenter"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="252dp"
-        android:scaleType="fitCenter" />
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
