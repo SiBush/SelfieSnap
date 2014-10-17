@@ -24,6 +24,7 @@ public class ViewImageActivity extends Activity {
         Picasso.with(this).load(imageUri.toString()).into(imageView);
 
         Timer timer = new Timer();
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

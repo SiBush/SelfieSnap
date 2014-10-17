@@ -52,12 +52,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         setContentView(R.layout.activity_main);
 
         ParseAnalytics.trackAppOpened(getIntent());
-        ParseUser currentuser = ParseUser.getCurrentUser();
-        if (currentuser == null) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser == null) {
             navigateToLogin();
         }
         else{
-            Log.i(TAG, currentuser.getUsername());
+            Log.i(TAG, currentUser.getUsername());
         }
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();

@@ -1,12 +1,16 @@
 package com.johncorser.selfiesnap;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,6 +28,7 @@ import java.util.List;
 public class InboxFragment extends android.support.v4.app.ListFragment{
 
     protected List<ParseObject> mMessages;
+    public static final String TAG = InboxFragment.class.getSimpleName();
 
 
     @Override
@@ -85,6 +90,34 @@ public class InboxFragment extends android.support.v4.app.ListFragment{
             //view image
             Intent intent = new Intent(getActivity(), ViewImageActivity.class);
             intent.setData(fileUri);
+            Log.e(TAG, "running");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("What face did your partner make?");
+            builder.setItems(new CharSequence[]
+                            {"Ate too much pizza", "Stepped on Frog", "Just saw Hitler's ghost", "Quicksand!"},
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // The 'which' argument contains the index position
+                            // of the selected item
+                            switch (which) {
+                                case 0:
+                                    Toast.makeText(getActivity(), "clicked 1", Toast.LENGTH_LONG).show();
+                                    break;
+                                case 1:
+                                    Toast.makeText(getActivity(), "clicked 2", Toast.LENGTH_LONG).show();
+                                    break;
+                                case 2:
+                                    Toast.makeText(getActivity(), "clicked 3", Toast.LENGTH_LONG).show();
+                                    break;
+                                case 3:
+                                    Toast.makeText(getActivity(), "clicked 4", Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+                    });
+            builder.create().show();
+
             startActivity(intent);
         }
         else{
@@ -108,5 +141,10 @@ public class InboxFragment extends android.support.v4.app.ListFragment{
             message.saveInBackground();
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
