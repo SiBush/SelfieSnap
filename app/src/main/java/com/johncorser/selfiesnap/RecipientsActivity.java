@@ -21,7 +21,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -29,6 +31,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.parse.ParseUser.getCurrentUser;
 
 public class RecipientsActivity extends Activity {
 
@@ -61,7 +65,7 @@ public class RecipientsActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-        mCurrentUser = ParseUser.getCurrentUser();
+        mCurrentUser = getCurrentUser();
         mFriendsRelation = mCurrentUser.getRelation("friendsRelation");
         setProgressBarIndeterminateVisibility(true);
         ParseQuery<ParseUser> query = mFriendsRelation.getQuery();
@@ -148,8 +152,8 @@ public class RecipientsActivity extends Activity {
 
     protected ParseObject createMessage(){
         ParseObject message = new ParseObject("Messages");
-        message.put("senderId", ParseUser.getCurrentUser().getObjectId());
-        message.put("senderName", ParseUser.getCurrentUser().getUsername());
+        message.put("senderId", getCurrentUser().getObjectId());
+        message.put("senderName", getCurrentUser().getUsername());
         message.put("fileType", mFileType);
         message.put("recipientIds", getRecipientIds());
 
@@ -186,6 +190,7 @@ public class RecipientsActivity extends Activity {
                 if (e == null){
                     //success
                     Toast.makeText(RecipientsActivity.this, "Message sent!", Toast.LENGTH_LONG);
+                    sendPush();
                 }
                 else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
@@ -222,5 +227,14 @@ public class RecipientsActivity extends Activity {
             }
         }
     };
+    protected void sendPush(){
+        ParseQuery query = ParseInstallation.getQuery();
+        query.whereContainedIn("userId", getRecipientIds());
+
+        ParsePush push = new ParsePush();
+        push.setQuery(query);
+        push.setMessage(getString(R.string.new_message_notification, getCurrentUser().getUsername()));
+        push.sendInBackground();
+    }
 }
 

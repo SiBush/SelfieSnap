@@ -23,5 +23,6 @@
     <string name="sign_up_button_label">Sign Up</string>
     <string name="email_hint">Email</string>
     <string name="empty_friends_label">No friends yet!</string>
+    <string name="new_message_notification">You have a new SelfieSnap from %s!</string>
 
 </resources>

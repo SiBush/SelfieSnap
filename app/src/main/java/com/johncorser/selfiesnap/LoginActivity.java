@@ -15,6 +15,8 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import static com.johncorser.selfiesnap.SelfieSnapApplication.updateParseInstallation;
+
 public class LoginActivity extends Activity {
 
     protected EditText mUsername;
@@ -74,6 +76,7 @@ public class LoginActivity extends Activity {
                             setProgressBarIndeterminateVisibility(false);
                             if (e == null){
                                 //Success!
+                                updateParseInstallation(ParseUser.getCurrentUser());
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
