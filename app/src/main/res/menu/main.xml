@@ -5,7 +5,7 @@
         android:title="Camera"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_camera" />
+        android:icon="@drawable/ic_menu_camera" />
     <item android:id="@+id/action_edit_friends"
         android:title="Edit Friends"
         android:orderInCategory="100"

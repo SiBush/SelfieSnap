@@ -36,7 +36,7 @@ public class SignUpActivity extends Activity {
         mPassword = (EditText)findViewById(R.id.passwordField);
         mEmail = (EditText)findViewById(R.id.emailField);
 
-        mSignUpButton = (Button)findViewById(R.id.signUpButton);
+        mSignUpButton = (Button)findViewById(R.id.signupButton);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
