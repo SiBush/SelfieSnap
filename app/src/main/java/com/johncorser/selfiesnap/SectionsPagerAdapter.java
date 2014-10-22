@@ -11,42 +11,56 @@ import java.util.Locale;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        protected Context mContext;
-        public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    protected Context mContext;
 
-            super(fm);
-            mContext = context;
+    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+        super(fm);
+        mContext = context;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        // getItem is called to instantiate the fragment for the given page.
+        // Return a DummySectionFragment (defined as a static inner class
+        // below) with the page number as its lone argument.
+
+        switch(position) {
+            case 0:
+                return new InboxFragment();
+            case 1:
+                return new FriendsFragment();
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            // return PlaceholderFragment.newInstance(position + 1);
+        return null;
+    }
 
-            switch (position){
-                case 0: return new InboxFragment();
-                case 1: return new FriendsFragment();
-            }
-            return null;
+    @Override
+    public int getCount() {
+        return 2;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        Locale l = Locale.getDefault();
+        switch (position) {
+            case 0:
+                return "Inbox".toUpperCase(l);
+            case 1:
+                return "Friends".toUpperCase(l);
+        }
+        return null;
+    }
+
+    public int getIcon(int position) {
+        switch (position) {
+            case 0:
+                return R.drawable.ic_tab_inbox;
+            case 1:
+                return R.drawable.ic_tab_friends;
         }
 
-        @Override
-        public int getCount() {
-            // Show 2 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return "Inbox".toUpperCase(l);
-                case 1:
-                    return "Friends".toUpperCase(l);
-            }
-            return null;
-        }
-
+        return R.drawable.ic_tab_inbox;
+    }
 }
+
+

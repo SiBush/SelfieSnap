@@ -22,5 +22,6 @@
     <string name="cancel_button_label">Cancel</string>
     <string name="sign_up_button_label">Sign Up</string>
     <string name="email_hint">Email</string>
+    <string name="empty_friends_label">No friends yet!</string>
 
 </resources>
