@@ -1,6 +1,7 @@
 package com.johncorser.selfiesnap;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,7 +18,10 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -150,15 +154,38 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 startActivity(intent);
                 break;
             case R.id.action_camera:
-                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                final Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                 if (mMediaUri == null){
                     //display error
                     Toast.makeText(MainActivity.this, "There was a problem accessing the devices storage", Toast.LENGTH_LONG).show();
                 }
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                Toast.makeText(MainActivity.this, "You've just stepped on a frog!", Toast.LENGTH_LONG).show();
-                startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                RidiculousFaces ridiculousFaces = new RidiculousFaces();
+                final String faceToMake = ridiculousFaces.getFaceToMake();
+                ParseObject face = new ParseObject("RecentFace");
+                face.put("username", ParseUser.getCurrentUser().getUsername());
+                face.put("faceToMake", faceToMake);
+                face.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null){
+                            //success
+                            Toast.makeText(MainActivity.this, faceToMake, Toast.LENGTH_LONG).show();
+                            startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+
+                        }
+                        else{
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setMessage("There was an error with your connection");
+                            builder.setTitle("Sorry!");
+                            builder.setPositiveButton(android.R.string.ok, null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+
+                    }
+                });
                 break;
 
         }

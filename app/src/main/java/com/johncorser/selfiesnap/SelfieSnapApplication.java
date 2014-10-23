@@ -10,6 +10,7 @@ import com.parse.ParseUser;
  * Created by jcorser on 10/10/14.
  */
 public class SelfieSnapApplication extends Application{
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -151,11 +151,28 @@ public class RecipientsActivity extends Activity {
 
 
     protected ParseObject createMessage(){
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("RecentFace");
+        query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+        String face = "";
+        try {
+            List<ParseObject> faces = query.find();
+            for (ParseObject madeFace : faces) {
+                face = madeFace.getString("faceToMake");
+                madeFace.deleteInBackground();
+            }
+
+        }
+        catch (ParseException e){
+            Log.e(TAG, "Error: " + e);
+        }
+
+
         ParseObject message = new ParseObject("Messages");
         message.put("senderId", getCurrentUser().getObjectId());
         message.put("senderName", getCurrentUser().getUsername());
         message.put("fileType", mFileType);
         message.put("recipientIds", getRecipientIds());
+        message.put("face", face);
 
         byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUri);
         if (fileBytes == null){

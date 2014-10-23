@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,35 +97,28 @@ public class InboxFragment extends android.support.v4.app.ListFragment{
         ParseObject message = mMessages.get(position);
         String messageType = message.getString("fileType");
         ParseFile file = message.getParseFile("file");
+        final String face = message.getString("face");
         Uri fileUri = Uri.parse(file.getUrl());
+
 
         if (messageType.equals("image")){
             //view image
             Intent intent = new Intent(getActivity(), ViewImageActivity.class);
             intent.setData(fileUri);
-            Log.e(TAG, "running");
-
+            RidiculousFaces ridiculousFaces = new RidiculousFaces();
+            final CharSequence[] guesses = ridiculousFaces.getGuessesToMake(face);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("What face did your partner make?");
-            builder.setItems(new CharSequence[]
-                            {"Ate too much pizza", "Stepped on Frog", "Just saw Hitler's ghost", "Quicksand!"},
+            builder.setItems(guesses,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // The 'which' argument contains the index position
                             // of the selected item
-                            switch (which) {
-                                case 0:
-                                    Toast.makeText(getActivity(), "clicked 1", Toast.LENGTH_LONG).show();
-                                    break;
-                                case 1:
-                                    Toast.makeText(getActivity(), "clicked 2", Toast.LENGTH_LONG).show();
-                                    break;
-                                case 2:
-                                    Toast.makeText(getActivity(), "clicked 3", Toast.LENGTH_LONG).show();
-                                    break;
-                                case 3:
-                                    Toast.makeText(getActivity(), "clicked 4", Toast.LENGTH_LONG).show();
-                                    break;
+                            if (guesses[which] == face){
+                                Toast.makeText(getActivity(), "You got it right!", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(getActivity(), "You got it wrong. It was " + face, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
