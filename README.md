@@ -7,19 +7,13 @@ It is currently under development, but feel free to check out the [early alpha r
 
 == To Do List
 
-* Remove the "no new messages" and "no friends yet" textviews for users with messages/friends
-
-* fix error where Toast messages don't seem to be showing? 
-
-* create a face suggestions array and randomly assign faces along with photos (this can be done in the toast?)
-
-* send face suggestion to Parse
-
-* allow user to guess face from a randomized list (from the array?) that includes the true value (after the activity times out?)
-
 * support video?
 
 * drop the default camera app and allow users to draw on the image before it is send, add text overlays, and instagram filters like Snapchat
+
+* Speed up the app by adding background threads
+
+* Improve UX with more "loading" spinners.
 
 
 == Tech details
