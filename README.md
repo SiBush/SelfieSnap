@@ -2,7 +2,7 @@
 
 This is an android game for sending and recieving self destructing images. Player 1 is prompted to make a specific ridiculous/random face, and then Player 2 has 10 seconds to view the image before he has to guess what face Player 1 was trying to make. 
 
-It is currently under development, but feel free to check out the [early alpha release](https://play.google.com/apps/publish/?dev_acc=08076605914356498695#PricingPlace:p=com.johncorser.selfiesnap)!
+It is currently under development, but feel free to check out the [early alpha release](https://play.google.com/store/apps/details?id=com.johncorser.selfiesnap)!
 
 
 == To Do List
