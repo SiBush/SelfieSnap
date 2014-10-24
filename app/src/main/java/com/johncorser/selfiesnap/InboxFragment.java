@@ -109,7 +109,7 @@ public class InboxFragment extends android.support.v4.app.ListFragment{
             final CharSequence[] guesses = ridiculousFaces.getGuessesToMake(face);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("What face did your partner make?");
-            builder.setItems(guesses,
+            builder.setItems(ridiculousFaces.shuffleArray(guesses),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // The 'which' argument contains the index position

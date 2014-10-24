@@ -33,7 +33,7 @@ public class RidiculousFaces {
             "Go to pay at the register, wallet nowhere to be found",
             "The McRib is back",
             "Cake Left Out In Break Room With No Instructions",
-            "North Korean Leader Kim Jong-un Arrested, Deposed",
+            "North Korean Leader Kim Jong-un was arrested for drunk and disorderly conduct",
             "Redbox Partners With Vivid Entertainment, Company To Stock XXX Films In Kiosks",
             "Winning the lottery",
             "A hairy dirty old mushy gummy bear was just thrown into your mouth",
@@ -81,4 +81,18 @@ public class RidiculousFaces {
         result = list.toArray(result);
         return result;
     }
+
+    static CharSequence[] shuffleArray(CharSequence[] ar)
+    {
+        Random rnd = new Random();
+        for (int i = ar.length - 1; i > 0; i--)
+        {
+            int index = rnd.nextInt(i + 1);
+            CharSequence a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
+        }
+        return ar;
+    }
+
 }

@@ -70,7 +70,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment{
                     //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, usernames );
 
 
-                    }
+                }
 
                 else{
                     Log.e(TAG, e.getMessage());

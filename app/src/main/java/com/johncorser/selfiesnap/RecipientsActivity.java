@@ -11,12 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -30,6 +30,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
@@ -173,6 +174,22 @@ public class RecipientsActivity extends Activity {
         message.put("fileType", mFileType);
         message.put("recipientIds", getRecipientIds());
         message.put("face", face);
+
+        for (String recipient : getRecipientIds() ){
+            ParseObject streak = new ParseObject("Streak");
+            String[] players = new String[2];
+            players[0] = recipient;
+            players[1] = ParseUser.getCurrentUser().getObjectId();
+            streak.put("players", Arrays.asList(players));
+            streak.put("streak", 0);
+            streak.put("bestStreak", 0);
+            try {
+                streak.save();
+            }
+            catch (ParseException e){
+                Log.e(TAG, "Exception: " + e);
+            }
+        }
 
         byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUri);
         if (fileBytes == null){
