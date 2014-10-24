@@ -15,6 +15,8 @@ It is currently under development, but feel free to check out the [early alpha r
 
 * Improve UX with more "loading" spinners.
 
+* Fix ImageView padding issue? Possibly caused by rotation hack.
+
 
 == Tech details
 
