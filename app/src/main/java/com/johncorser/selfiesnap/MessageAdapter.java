@@ -83,8 +83,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
                 try {
                     if (streak.getJSONArray("players").getString(0).equals(ParseUser.getCurrentUser().getObjectId()) || streak.getJSONArray("players").getString(1).equals(ParseUser.getCurrentUser().getObjectId())){
                         if (streak.getJSONArray("players").getString(0).equals(message.getString("senderId")) || streak.getJSONArray("players").getString(1).equals(message.getString("senderId"))){
-                            curStreak = (int)Float.parseFloat(streak.getNumber("bestStreak").toString());
-                            bestStreak = (int)Float.parseFloat(streak.getNumber("streak").toString());
+                            bestStreak = (int)Float.parseFloat(streak.getNumber("bestStreak").toString());
+                            curStreak = (int)Float.parseFloat(streak.getNumber("streak").toString());
                         }
 
                     }

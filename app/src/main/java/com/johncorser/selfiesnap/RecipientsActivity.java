@@ -29,6 +29,8 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -174,21 +176,58 @@ public class RecipientsActivity extends Activity {
         message.put("fileType", mFileType);
         message.put("recipientIds", getRecipientIds());
         message.put("face", face);
-
+        ParseQuery<ParseObject> testQuery = new ParseQuery<ParseObject>("Streak");
         for (String recipient : getRecipientIds() ){
-            ParseObject streak = new ParseObject("Streak");
-            String[] players = new String[2];
-            players[0] = recipient;
-            players[1] = ParseUser.getCurrentUser().getObjectId();
-            streak.put("players", Arrays.asList(players));
-            streak.put("streak", 0);
-            streak.put("bestStreak", 0);
             try {
-                streak.save();
+                List<ParseObject> streaks = testQuery.find();
+                if (streaks.isEmpty()){
+                    ParseObject newStreak = new ParseObject("Streak");
+                    String[] players = new String[2];
+                    players[0] = recipient;
+                    players[1] = ParseUser.getCurrentUser().getObjectId();
+                    newStreak.put("players", Arrays.asList(players));
+                    newStreak.put("streak", 0);
+                    newStreak.put("bestStreak", 0);
+                    try {
+                        newStreak.save();
+                    }
+                    catch (ParseException e){
+                        Log.e(TAG, "Exception: " + e);
+                    }
+                }
+                    else {
+                    for (ParseObject streak : streaks) {
+                        try {
+                            if (!streak.getJSONArray("players").getString(0).equals(ParseUser.getCurrentUser().getObjectId()) && !streak.getJSONArray("players").getString(1).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                if (!streak.getJSONArray("players").getString(0).equals(message.getString("senderId")) && !streak.getJSONArray("players").getString(1).equals(message.getString("senderId"))) {
+                                    ParseObject newStreak = new ParseObject("Streak");
+                                    String[] players = new String[2];
+                                    players[0] = recipient;
+                                    players[1] = ParseUser.getCurrentUser().getObjectId();
+                                    newStreak.put("players", Arrays.asList(players));
+                                    newStreak.put("streak", 0);
+                                    newStreak.put("bestStreak", 0);
+                                    try {
+                                        newStreak.save();
+                                    } catch (ParseException e) {
+                                        Log.e(TAG, "Exception: " + e);
+                                    }
+                                }
+
+                            }
+                        } catch (JSONException e) {
+                            Log.e("MessageAdapter", "Error in loop: " + e);
+                        }
+                    }
+                }
             }
             catch (ParseException e){
-                Log.e(TAG, "Exception: " + e);
+                Log.e("MessageAdapter", "Error: " + e);
             }
+
+
+
+
         }
 
         byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUri);

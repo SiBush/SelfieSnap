@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +97,7 @@ public class InboxFragment extends android.support.v4.app.ListFragment{
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        ParseObject message = mMessages.get(position);
+        final ParseObject message = mMessages.get(position);
         String messageType = message.getString("fileType");
         ParseFile file = message.getParseFile("file");
         final String face = message.getString("face");
@@ -116,9 +119,65 @@ public class InboxFragment extends android.support.v4.app.ListFragment{
                             // of the selected item
                             if (guesses[which] == face){
                                 Toast.makeText(getActivity(), "You got it right!", Toast.LENGTH_LONG).show();
+                                //TODO: Update the value for curStreak
+                                //TODO: Check whether the curStreak > bestStreak, update bestStreak if so
+                                ParseQuery<ParseObject> testQuery = new ParseQuery<ParseObject>("Streak");
+                                try {
+                                    List<ParseObject> streaks = testQuery.find();
+                                    for (ParseObject streak : streaks) {
+                                        try {
+                                            if (streak.getJSONArray("players").getString(0).equals(ParseUser.getCurrentUser().getObjectId()) || streak.getJSONArray("players").getString(1).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                                if (streak.getJSONArray("players").getString(0).equals(message.getString("senderId")) || streak.getJSONArray("players").getString(1).equals(message.getString("senderId"))) {
+                                                    int oldStreak = (int) Float.parseFloat(streak.getNumber("streak").toString());
+                                                    int oldBestStreak = (int)Float.parseFloat(streak.getNumber("bestStreak").toString());
+                                                    streak.put("streak", ++oldStreak);
+                                                    if (oldStreak > oldBestStreak){
+                                                        streak.put("bestStreak", oldStreak);
+                                                    }
+                                                    try {
+                                                        streak.save();
+                                                    } catch (ParseException e) {
+                                                        Log.e(TAG, "Exception: " + e);
+                                                    }
+                                                }
+
+                                            }
+                                        } catch (JSONException e) {
+                                            Log.e("MessageAdapter", "Error in loop: " + e);
+                                        }
+                                    }
+
+                                } catch (ParseException e) {
+                                    Log.e(TAG, "Error: " + e);
+                                }
                             }
                             else {
                                 Toast.makeText(getActivity(), "You got it wrong. It was " + face, Toast.LENGTH_LONG).show();
+                                //TODO: reset curStreak to zero
+                                ParseQuery<ParseObject> testQuery = new ParseQuery<ParseObject>("Streak");
+                                try {
+                                    List<ParseObject> streaks = testQuery.find();
+                                    for (ParseObject streak : streaks) {
+                                        try {
+                                            if (streak.getJSONArray("players").getString(0).equals(ParseUser.getCurrentUser().getObjectId()) || streak.getJSONArray("players").getString(1).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                                if (streak.getJSONArray("players").getString(0).equals(message.getString("senderId")) || streak.getJSONArray("players").getString(1).equals(message.getString("senderId"))) {
+                                                    streak.put("streak", 0);
+                                                    try {
+                                                        streak.save();
+                                                    } catch (ParseException e) {
+                                                        Log.e(TAG, "Exception: " + e);
+                                                    }
+                                                }
+
+                                            }
+                                        } catch (JSONException e) {
+                                            Log.e("MessageAdapter", "Error in loop: " + e);
+                                        }
+                                    }
+
+                                } catch (ParseException e) {
+                                    Log.e(TAG, "Error: " + e);
+                                }
                             }
                         }
                     });
