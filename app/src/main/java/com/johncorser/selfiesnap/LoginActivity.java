@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String username = mUsername.getText().toString();
-                String password = mUsername.getText().toString();
+                String password = mPassword.getText().toString();
 
                 username = username.trim();
                 password = password.trim();
