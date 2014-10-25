@@ -177,6 +177,7 @@ public class RecipientsActivity extends Activity {
         message.put("recipientIds", getRecipientIds());
         message.put("face", face);
         ParseQuery<ParseObject> testQuery = new ParseQuery<ParseObject>("Streak");
+        boolean firstGame = true;
         for (String recipient : getRecipientIds() ){
             try {
                 List<ParseObject> streaks = testQuery.find();
@@ -198,25 +199,28 @@ public class RecipientsActivity extends Activity {
                     else {
                     for (ParseObject streak : streaks) {
                         try {
-                            if (!streak.getJSONArray("players").getString(0).equals(ParseUser.getCurrentUser().getObjectId()) && !streak.getJSONArray("players").getString(1).equals(ParseUser.getCurrentUser().getObjectId())) {
-                                if (!streak.getJSONArray("players").getString(0).equals(message.getString("senderId")) && !streak.getJSONArray("players").getString(1).equals(message.getString("senderId"))) {
-                                    ParseObject newStreak = new ParseObject("Streak");
-                                    String[] players = new String[2];
-                                    players[0] = recipient;
-                                    players[1] = ParseUser.getCurrentUser().getObjectId();
-                                    newStreak.put("players", Arrays.asList(players));
-                                    newStreak.put("streak", 0);
-                                    newStreak.put("bestStreak", 0);
-                                    try {
-                                        newStreak.save();
-                                    } catch (ParseException e) {
-                                        Log.e(TAG, "Exception: " + e);
-                                    }
+                            if (streak.getJSONArray("players").getString(0).equals(ParseUser.getCurrentUser().getObjectId()) || streak.getJSONArray("players").getString(1).equals(ParseUser.getCurrentUser().getObjectId())) {
+                                if (streak.getJSONArray("players").getString(0).equals(message.getString("senderId")) || streak.getJSONArray("players").getString(1).equals(message.getString("senderId"))) {
+                                    firstGame = false;
                                 }
 
                             }
                         } catch (JSONException e) {
                             Log.e("MessageAdapter", "Error in loop: " + e);
+                        }
+                        if (firstGame){
+                            ParseObject newStreak = new ParseObject("Streak");
+                            String[] players = new String[2];
+                            players[0] = recipient;
+                            players[1] = ParseUser.getCurrentUser().getObjectId();
+                            newStreak.put("players", Arrays.asList(players));
+                            newStreak.put("streak", 0);
+                            newStreak.put("bestStreak", 0);
+                            try {
+                                newStreak.save();
+                            } catch (ParseException e) {
+                                Log.e(TAG, "Exception: " + e);
+                            }
                         }
                     }
                 }
